@@ -1,0 +1,5 @@
+export enum RULE_TYPE {
+  BUY_X_GET_Y_FREE,
+  BUY_FOR_X_GET_FLAT_Y_PERCENT_OFF,
+  FLAT_OFF
+}
