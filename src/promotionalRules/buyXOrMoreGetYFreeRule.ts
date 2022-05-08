@@ -1,7 +1,7 @@
-import { IRule } from '../interfaces/ruleInterface';
+import { IItemRules } from '../interfaces/ruleInterface';
 import { OrderRow } from '../services/orderRowService';
 
-export class BuyXOrMoreGetYFreeRule implements IRule {
+export class BuyXOrMoreGetYFreeRule implements IItemRules{
     private x: number;
     private y: number;
     private productCode: number;
@@ -12,7 +12,7 @@ export class BuyXOrMoreGetYFreeRule implements IRule {
         this.productCode = productCode;
     }
 
-    public applyDiscount(order: OrderRow): OrderRow {
+    public applyPromotionalItemsRules(order: OrderRow): OrderRow {
         if (order.getOrderItem().getCode() === this.productCode) { 
             const purchasedQuantity = order.getTotalQuantity();
             if (purchasedQuantity >= this.x) {

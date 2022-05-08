@@ -1,8 +1,6 @@
-import { IRule } from '../interfaces/ruleInterface';
-import { Cart } from '../services/cartService';
-import { OrderRow } from '../services/orderRowService';
+import { IPricingRules } from "../interfaces/ruleInterface";
 
-export class BuyForXGetFlatYPercentOfRule implements IRule {
+export class BuyForXGetFlatYPercentOffRule implements IPricingRules { 
     private x: number;
     private y: number;
 
@@ -11,15 +9,7 @@ export class BuyForXGetFlatYPercentOfRule implements IRule {
         this.y = y;
     }
 
-    public applyDiscount(orderRow: OrderRow): OrderRow {
-        let cartService = new Cart();
-        let purchasedOrderPrice = cartService.getCurrentCartItemTotalPrice();
-        // let purchasedOrderPrice = orderRow.getTotalPrice();
-        // console.log("purchasedOrderPrice >>> ", purchasedOrderPrice)
-        if (purchasedOrderPrice >= this.x) {
-            let discountedPrice = (purchasedOrderPrice / 100) * this.y;
-            orderRow.setTotalPrice(discountedPrice);
-        }
-        return orderRow;
+    public applyTotalPriceDiscount(totalPrice: number): number {
+        return totalPrice >= this.x ? ((totalPrice / 100) * this.y) : 0;
     }
 }

@@ -1,24 +1,31 @@
 import { ICheckoutService } from '../interfaces/checkoutInterface';
-import { Cart } from './cartService';
 import { OrderRow } from './orderRowService';
 import { Rule } from './promotionalRulesService';
 
 export class Checkout implements ICheckoutService {  
 
-    public scan(order: OrderRow) {
+    public scanOrder(order: OrderRow): void {
         const ruleService = new Rule();
-        const rules = ruleService.getPromotionalRules();
+        const rules = ruleService.getPromotionalItemsRules();
         rules.forEach(rule => {
-            rule.applyDiscount(order);
+            rule.applyPromotionalItemsRules(order);
         })
     }
 
     public checkoutCartItems(orders): void {
-        let cartService = new Cart();
         orders.forEach(order => {
-            cartService.setCurrentCartItemTotalPrice(order.getTotalPrice());
-            this.scan(order)
+            this.scanOrder(order)
+        })     
+    }
+
+    public scanTotalPrice(totalPrice): number {
+        const ruleService = new Rule();
+        const rules = ruleService.getTotalPriceRules();
+        rules.forEach(rule => {
+            const discount = rule.applyTotalPriceDiscount(totalPrice);
+            totalPrice -= discount;
         })
+        return Math.round(totalPrice);
     }
 
     public calcualteTotalPrice(orders): number {
@@ -26,6 +33,6 @@ export class Checkout implements ICheckoutService {
         orders.forEach(order => {
             totalPrice += order.getTotalPrice();
         })
-        return totalPrice;
+        return this.scanTotalPrice(totalPrice);
     }
 }

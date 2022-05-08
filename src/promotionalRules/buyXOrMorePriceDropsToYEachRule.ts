@@ -1,7 +1,7 @@
-import { IRule } from '../interfaces/ruleInterface';
+import { IItemRules } from '../interfaces/ruleInterface';
 import { OrderRow } from '../services/orderRowService';
 
-export class BuyXOrMorePriceDropsEachToY implements IRule {
+export class BuyXOrMorePriceDropsEachToY implements IItemRules {
     private productCode: number;
     private x: number;
     private y: number
@@ -12,7 +12,7 @@ export class BuyXOrMorePriceDropsEachToY implements IRule {
         this.y = y;
     }
 
-    public applyDiscount(order: OrderRow): OrderRow {
+    public applyPromotionalItemsRules(order: OrderRow): OrderRow {
         if(order.getOrderItem().getCode() === this.productCode) {
             let totalQuantity = order.getTotalQuantity();
             if (totalQuantity >= this.x) {

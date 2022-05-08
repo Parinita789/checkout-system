@@ -1,9 +1,14 @@
 import { OrderRow } from "../services/orderRowService";
 
-export interface IRule {
-    applyDiscount(order: OrderRow): OrderRow;
+export interface IRuleService {
+    getPromotionalItemsRules();
+    getTotalPriceRules();
 }
 
-export interface IRuleService {
-    getPromotionalRules();
+export interface IItemRules {
+    applyPromotionalItemsRules(order: OrderRow);
+}
+
+export interface IPricingRules {
+    applyTotalPriceDiscount(totalPrice: number);
 }

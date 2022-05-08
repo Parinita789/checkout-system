@@ -1,7 +1,6 @@
-import { IRule } from '../interfaces/ruleInterface';
-import { OrderRow } from '../services/orderRowService';
+import { IPricingRules } from '../interfaces/ruleInterface';
 
-export class FlatOffRule implements IRule {
+export class FlatOffRule implements IPricingRules {
     private x: number;
     private y: number
 
@@ -10,12 +9,7 @@ export class FlatOffRule implements IRule {
         this.y = y;
     }
 
-    public applyDiscount(orderRow: OrderRow): OrderRow {
-        let purchasedOrderPrice = orderRow.getTotalPrice();
-        if (purchasedOrderPrice >= this.x) {
-            let discountedPrice = purchasedOrderPrice - this.y;
-            orderRow.setTotalPrice(discountedPrice);
-        }
-        return orderRow;
+    public applyTotalPriceDiscount(cartItemTotalPrice: number): number {
+        return cartItemTotalPrice >= this.x ? cartItemTotalPrice - this.y : 0;
     }
 }

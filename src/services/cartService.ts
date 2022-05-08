@@ -5,9 +5,6 @@ import { UPDATE_TYPE } from '../constants/OrderUpdateType';
 
 export class Cart implements ICartService {
     private cart = new Map<number, OrderRow>();
-    private currentCartItemTotalPrice: number = 0;
-    
-    constructor() {}
 
     public add(item: Item) {
         let orderRow = new OrderRow(item, 1);
@@ -43,13 +40,4 @@ export class Cart implements ICartService {
         this.cart.delete(code);
         return this.cart;
     }
-
-    public getCurrentCartItemTotalPrice(): number {
-        return this.currentCartItemTotalPrice;
-    }
-
-    public setCurrentCartItemTotalPrice(currentTotalPrice: number): void {
-        this.currentCartItemTotalPrice += currentTotalPrice;
-    }
-
 }
